@@ -1,8 +1,13 @@
 package kr.or.dgit.hair_setting.dao.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Properties;
 
-import kr.or.dgit.erp_application.jdbc.LoadProperties;
+import erp_application.jdbc.LoadProperties;
 import kr.or.dgit.hair_setting.dao.ExecuteSql;
 
 
@@ -17,24 +22,23 @@ public class LoadService implements DaoService{
 	
 	@Override
 	public void service() {
-		LoadProperties loadProperties = new LoadProperties();
-		Properties properties = loadProperties.getProperties();
-		
-	//	ExecuteSql.getInstance().execSQL("use erp_project");
-		ExecuteSql.getInstance().execSQL("use " +properties.getProperty("dbname"));
-		ExecuteSql.getInstance().execSQL("set foreign_key_checks=0");
-		
-		String[] tables = properties.get("tables").toString().split(",");
-		for(String tblName : tables) {
-			ExecuteSql.getInstance().execSQL(getPath(tblName));
+		File f = new File(System.getProperty("user.dir")+"\\resources\\insert_sql.txt");
+		try (BufferedReader br = new BufferedReader(new FileReader(f));){
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			while( (line = br.readLine()) != null ) {
+				if ( !line.isEmpty() && !line.startsWith(",")) {
+					sb.append(line);
+				}
+				if (line.endsWith(";")) {
+					ExecuteSql.getInstance().execSQL(sb.toString());
+					sb.setLength(0);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		ExecuteSql.getInstance().execSQL("set foreign_key_checks=1");
-	}
-
-	private String getPath(String tblName) {
-		String path = String.format("%s\\DataFiles\\%s.csv", System.getProperty("user.dir"), tblName);
-		String sql = String.format("load data local infile '%s' into table %s character set 'euckr' fields TERMINATED by ','", path,tblName);
-		sql = sql.replace("\\", "/");
-		return sql;
 	}
 }

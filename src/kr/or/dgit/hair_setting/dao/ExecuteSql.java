@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import kr.or.dgit.erp_application.jdbc.DBCon;
+import erp_application.jdbc.DBCon;
 
 public class ExecuteSql {
 	private static final ExecuteSql instance = new ExecuteSql();
