@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import erp_application.jdbc.LoadProperties;
 import kr.or.dgit.hair_setting.dao.ExecuteSql;
 
 

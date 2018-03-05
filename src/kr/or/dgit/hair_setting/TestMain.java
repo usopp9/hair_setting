@@ -1,12 +1,11 @@
 package kr.or.dgit.hair_setting;
 
 import java.sql.SQLException;
+import java.util.Map.Entry;
 import java.util.Properties;
 
-import erp_application.jdbc.DBCon;
-import erp_application.jdbc.LoadProperties;
-
-import java.util.Map.Entry;
+import kr.or.dgit.erp_application.jdbc.DBCon;
+import kr.or.dgit.erp_application.jdbc.LoadProperties;
 
 
 public class TestMain {

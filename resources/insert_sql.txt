@@ -9,7 +9,8 @@ insert into title values
 (1,'사장'),
 (2,'실장'),
 (3,'디자이너'),
-(4,'스텝');
+(4,'스텝'),
+(5,'인턴');
 
 insert into employee(emp_no,emp_name,join_date,addr,id,epassword,title_no,eoff,e_tf) values
 (1,'영은수','2016-02-08','대구광역시 북구 칠성남로2안길','idmaster','pwmaster',1,0,1),
