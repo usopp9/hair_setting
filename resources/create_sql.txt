@@ -1,22 +1,23 @@
 -- 미용실
 DROP SCHEMA IF EXISTS hairshop;
 
--- 미용실
-CREATE SCHEMA hairshop;
 
 use hairshop;
 
+-- 미용실
+CREATE SCHEMA hairshop;
+
 -- 고객
 CREATE TABLE hairshop.customer (
-	cus_no    INTEGER      NOT NULL COMMENT '고객번호',
-	cus_name  VARCHAR(16)  NOT NULL COMMENT '고객명',
-	birth     DATE         NOT NULL COMMENT '생년월일',
-	age       INTEGER      NULL     COMMENT '나이',
-	join_date DATE         NOT NULL COMMENT '가입일자',
-	phone     VARCHAR(30)  NOT NULL COMMENT '연락처',
-	addr      VARCHAR(100) NULL     COMMENT '주소',
-	emp_no    INTEGER      NOT NULL COMMENT '직원번호',
-	c_tf      BOOLEAN      NOT NULL COMMENT '유효'
+	cus_no    INTEGER      NOT NULL COMMENT '고객번호', 
+	cus_name  VARCHAR(16)  NOT NULL COMMENT '고객명', 
+	birth     DATE         NOT NULL COMMENT '생년월일', 
+	age       INTEGER      NULL     COMMENT '나이', 
+	join_date DATE         NOT NULL COMMENT '가입일자', 
+	phone     VARCHAR(30)  NOT NULL COMMENT '연락처', 
+	addr      VARCHAR(100) NULL     COMMENT '주소', 
+	emp_no    INTEGER      NOT NULL COMMENT '직원번호', 
+	c_tf      BOOLEAN      NOT NULL COMMENT '유효' 
 )
 COMMENT '고객';
 
@@ -31,7 +32,7 @@ ALTER TABLE hairshop.customer
 CREATE TABLE hairshop.event (
 	evn_no   INTEGER     NOT NULL COMMENT '이벤트번호', 
 	evn_name VARCHAR(30) NOT NULL COMMENT '이벤트명', 
-	discount FLOAT       NOT NULL COMMENT '할인율'
+	discount FLOAT       NOT NULL COMMENT '할인율' 
 )
 COMMENT '이벤트';
 
@@ -44,7 +45,7 @@ ALTER TABLE hairshop.event
 
 -- 헤어정보
 CREATE TABLE hairshop.hair (
-	hair_no   INTEGER     NOT NULL COMMENT '헤어번호',
+	hair_no   INTEGER     NOT NULL COMMENT '헤어번호', 
 	hair_name VARCHAR(30) NOT NULL COMMENT '헤어명', 
 	price     INTEGER     NOT NULL COMMENT '원가' 
 )
@@ -77,9 +78,15 @@ ALTER TABLE hairshop.sale
 			sale_no 
 		);
 
+ALTER TABLE hairshop.sale
+	MODIFY COLUMN sale_no INTEGER NOT NULL AUTO_INCREMENT COMMENT '영업번호';
+
+ALTER TABLE hairshop.sale
+	AUTO_INCREMENT = 1;
+
 -- 직원
 CREATE TABLE hairshop.employee (
-	emp_no    INTEGER      NOT NULL COMMENT '직원번호',
+	emp_no    INTEGER      NOT NULL COMMENT '직원번호', 
 	emp_name  VARCHAR(16)  NOT NULL COMMENT '직원명', 
 	join_date DATE         NOT NULL COMMENT '입사일자', 
 	addr      VARCHAR(100) NULL     COMMENT '주소', 
@@ -101,7 +108,7 @@ ALTER TABLE hairshop.employee
 -- 주소
 CREATE TABLE hairshop.address (
 	zipcode   CHAR(5)     NULL COMMENT '우편번호', 
-	sido      VARCHAR(20) NULL COMMENT '시도',
+	sido      VARCHAR(20) NULL COMMENT '시도', 
 	sigungu   VARCHAR(20) NULL COMMENT '시군구', 
 	doro      VARCHAR(20) NULL COMMENT '도로', 
 	building1 INT(5)      NULL COMMENT '건물명1', 
@@ -121,13 +128,19 @@ COMMENT ' 헤어주문';
 ALTER TABLE hairshop.enroll
 	ADD CONSTRAINT PK_enroll 
 		PRIMARY KEY (
-			enroll_no
+			enroll_no 
 		);
+
+ALTER TABLE hairshop.enroll
+	MODIFY COLUMN enroll_no INTEGER NOT NULL AUTO_INCREMENT COMMENT '헤어주문번호';
+
+ALTER TABLE hairshop.enroll
+	AUTO_INCREMENT = 1;
 
 -- 직책
 CREATE TABLE hairshop.title (
 	title_no   INTEGER     NOT NULL COMMENT '직책번호', 
-	title_name VARCHAR(16) NULL     COMMENT '직책명'
+	title_name VARCHAR(16) NULL     COMMENT '직책명' 
 )
 COMMENT '직책';
 
@@ -174,8 +187,8 @@ ALTER TABLE hairshop.sale
 		FOREIGN KEY (
 			emp_no 
 		)
-		REFERENCES hairshop.employee (
-			emp_no
+		REFERENCES hairshop.employee ( 
+			emp_no 
 		);
 
 -- 직원
@@ -194,7 +207,7 @@ ALTER TABLE hairshop.enroll
 		FOREIGN KEY (
 			hair_no 
 		)
-		REFERENCES hairshop.hair (
+		REFERENCES hairshop.hair ( 
 			hair_no 
 		);
 
@@ -204,9 +217,11 @@ ALTER TABLE hairshop.enroll
 		FOREIGN KEY (
 			sale_no 
 		)
-		REFERENCES hairshop.sale (
+		REFERENCES hairshop.sale ( 
 			sale_no 
 		);
+
+
 
 create view hairshop.v_sale as 
 select s.sale_no, round(sum(h.price)-sum(h.price)* e.discount) as price 
